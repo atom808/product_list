@@ -13,7 +13,7 @@ class PROPrimaryElevatedButton extends StatelessWidget {
       style: PROButtonDecoration().elevatedButton(
         color: Theme.of(context).colorScheme.primary
       ),
-      child: Text(label, style: TextStyle(color: Colors.white),),
+      child: Text(label, style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),),
     );
   }
 }

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:product_list/views/start_page.dart';
+import 'package:product_list/views/auth/login_page.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 void main() {
@@ -24,7 +24,7 @@ class MyApp extends StatelessWidget {
         ),
         textTheme: GoogleFonts.latoTextTheme(),
       ),
-      home: const StartPage(),
+      home: const LoginPage(),
     );
   }
 }

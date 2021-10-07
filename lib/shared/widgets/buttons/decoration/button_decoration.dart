@@ -9,7 +9,9 @@ class PROButtonDecoration {
   }) {
     return ElevatedButton.styleFrom(
       primary: color,
-      shape: StadiumBorder(),
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(12)
+      ),
       maximumSize: Size.fromWidth(400),
     );
   }
@@ -17,7 +19,9 @@ class PROButtonDecoration {
 
   textButton ({Brightness brightness = Brightness.light}) {
     return TextButton.styleFrom(
-      shape: StadiumBorder(),
+        shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(12)
+        ),
       maximumSize: Size.fromWidth(400),
       primary: Colors.orange
     );

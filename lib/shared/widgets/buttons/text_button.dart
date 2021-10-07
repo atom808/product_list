@@ -4,14 +4,15 @@ import 'package:product_list/shared/widgets/buttons/decoration/button_decoration
 class PROTextButton extends StatelessWidget {
   final String label;
   final void Function()? onPressed;
-  const PROTextButton({Key? key, required this.label, this.onPressed}) : super(key: key);
+  final Color color;
+  const PROTextButton({Key? key, required this.label, this.onPressed, this.color = Colors.black87}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return TextButton(
       onPressed: onPressed,
       style: PROButtonDecoration().textButton(),
-      child: Text(label, style: TextStyle(color: Colors.white),),
+      child: Text(label, style: TextStyle(color: color, fontWeight: FontWeight.bold),),
     );
   }
 }
