@@ -20,12 +20,19 @@ class _PROPasswordInputState extends State<PROPasswordInput> {
       decoration: PROInputDecoration().textInputDecoration(
         label: widget.label,
         icon: Icons.lock,
-        suffixIconButton: IconButton(
-          icon: Icon(Icons.remove_red_eye),
-          onPressed: () {},
-        )
+        // suffixIconButton: IconButton(
+        //   icon: Icon(Icons.remove_red_eye),
+        //   onPressed: () {},
+        // )
       ),
       obscureText: true,
+      validator: (text) {
+        if(text!.isNotEmpty) {
+          return null;
+        } else {
+          return 'Campo obrigatório';
+        }
+      },
     );
   }
 }

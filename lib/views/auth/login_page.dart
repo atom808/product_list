@@ -1,3 +1,7 @@
+import 'dart:developer';
+
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:product_list/shared/widgets/buttons/primary_button.dart';
@@ -20,6 +24,24 @@ class _LoginPageState extends State<LoginPage> {
   final GlobalKey<FormState> _loginFormKey = GlobalKey<FormState>();
   TextEditingController emailController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
+  final auth = FirebaseAuth.instance;
+
+  authHandler() async {
+    try {
+      await FirebaseAuth.instance.signInWithEmailAndPassword(
+          email: emailController.text,
+          password: passwordController.text
+      );
+    } on FirebaseAuthException catch  (e) {
+      showDialog(context: context, builder: (BuildContext context) => AlertDialog(
+        title: Text('Atenção'),
+        content: Text(e.message.toString()),
+        actions: [
+          PROTextButton(label: 'OK', onPressed: () {Navigator.pop(context);},)
+        ],
+      ));
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -58,6 +80,7 @@ class _LoginPageState extends State<LoginPage> {
                           label: 'Email',
                           controller: emailController,
                           icon: Icons.email,
+                          emptyText: 'Campo obrigatório',
                         ),
                       ),
                       Divider(
@@ -78,8 +101,7 @@ class _LoginPageState extends State<LoginPage> {
                           label: 'Entrar',
                           onPressed: () {
                             if(_loginFormKey.currentState!.validate()) {
-                              Navigator.of(context).push(CupertinoPageRoute(
-                                  builder: (_) => HomePage()));
+                              authHandler();
                             }
                           },
                         ),

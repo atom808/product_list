@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:product_list/shared/widgets/buttons/primary_button.dart';
@@ -16,8 +17,28 @@ class RegisterPage extends StatefulWidget {
 
 class _RegisterPageState extends State<RegisterPage> {
   final GlobalKey<FormState> registerFormKey = GlobalKey<FormState>();
+  final TextEditingController _nameController = TextEditingController();
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
+  final auth = FirebaseAuth.instance;
+
+  userRegisterHandler() async {
+    try {
+      await FirebaseAuth.instance.createUserWithEmailAndPassword(
+          email: _emailController.text,
+          password: _passwordController.text
+      );
+    } on FirebaseAuthException catch  (e) {
+      showDialog(context: context, builder: (BuildContext context) => AlertDialog(
+        title: Text('Atenção'),
+        content: Text(e.message.toString()),
+        actions: [
+          PROTextButton(label: 'OK', onPressed: () {Navigator.pop(context);},)
+        ],
+      ));
+    }
+  }
+
 
   @override
   Widget build(BuildContext context) {
@@ -48,14 +69,27 @@ class _RegisterPageState extends State<RegisterPage> {
               child: Padding(
                 padding: const EdgeInsets.all(16.0),
                 child: Form(
-                  // key: registerFormKey,
+                  key: registerFormKey,
                   child: Column(
                     children: [
+                      Container(
+                        child: PROTextInput(
+                          label: 'Nome',
+                          controller: _nameController,
+                          icon: Icons.person,
+                          emptyText: 'Campo obrigatório',
+                        ),
+                      ),
+                      Divider(
+                        color: Colors.transparent,
+                        height: 8,
+                      ),
                       Container(
                         child: PROTextInput(
                           label: 'Email',
                           controller: _emailController,
                           icon: Icons.email,
+                          emptyText: 'Campo obrigatório',
                         ),
                       ),
                       Divider(
@@ -75,12 +109,9 @@ class _RegisterPageState extends State<RegisterPage> {
                         child: PROPrimaryElevatedButton(
                           label: 'Cadastrar',
                           onPressed: () {
-                            // Navigator.push(
-                            //     context,
-                            //     CupertinoPageRoute(
-                            //         builder: (context) => LoginPage()
-                            //     )
-                            // );
+                            if(registerFormKey.currentState!.validate()) {
+                              userRegisterHandler();
+                            }
                           },
                         ),
                       ),
