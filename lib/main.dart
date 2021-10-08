@@ -16,8 +16,8 @@ class MyApp extends StatelessWidget {
       title: 'Product Shop',
       theme: ThemeData(
         primarySwatch: Colors.green,
-        backgroundColor: Colors.blueGrey.shade200,
-        cardColor: Colors.blueGrey.shade50,
+        backgroundColor: Colors.green.shade100,
+        cardColor: Colors.green.shade50,
         colorScheme: ColorScheme.fromSwatch().copyWith(
           primary: Colors.green,
           secondary: Colors.orange,

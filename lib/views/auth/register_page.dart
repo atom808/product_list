@@ -5,7 +5,7 @@ import 'package:product_list/shared/widgets/buttons/secondary_button.dart';
 import 'package:product_list/shared/widgets/buttons/text_button.dart';
 import 'package:product_list/shared/widgets/inputs/password_input.dart';
 import 'package:product_list/shared/widgets/inputs/text_input.dart';
-import 'package:product_list/shared/widgets/text/pro_main_title_text_widget.dart';
+import 'package:product_list/shared/widgets/text/title_text.dart';
 
 class RegisterPage extends StatefulWidget {
   const RegisterPage({Key? key}) : super(key: key);
@@ -35,7 +35,7 @@ class _RegisterPageState extends State<RegisterPage> {
               padding: EdgeInsets.fromLTRB(30, 70, 20, 20),
               child: Align(
                   alignment: Alignment.centerLeft,
-                  child: PROMainTitleTextWidget(
+                  child: PROTitleText(
                     text: 'Cadastro',
                     color: Colors.white,
                   )),

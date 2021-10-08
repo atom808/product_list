@@ -1,15 +1,19 @@
 import 'package:flutter/material.dart';
 
-class PROMainTitleTextWidget extends StatefulWidget {
+class PROTitleText extends StatefulWidget {
   final String text;
   final Color color;
-  const PROMainTitleTextWidget({Key? key, required this.text, this.color = Colors.black87}) : super(key: key);
+  const PROTitleText({
+    Key? key,
+    required this.text,
+    this.color = Colors.black87
+  }) : super(key: key);
 
   @override
-  _PROMainTitleTextWidgetState createState() => _PROMainTitleTextWidgetState();
+  _PROTitleTextState createState() => _PROTitleTextState();
 }
 
-class _PROMainTitleTextWidgetState extends State<PROMainTitleTextWidget> {
+class _PROTitleTextState extends State<PROTitleText> {
 
   @override
   Widget build(BuildContext context) {

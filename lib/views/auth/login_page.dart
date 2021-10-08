@@ -5,8 +5,9 @@ import 'package:product_list/shared/widgets/buttons/secondary_button.dart';
 import 'package:product_list/shared/widgets/buttons/text_button.dart';
 import 'package:product_list/shared/widgets/inputs/password_input.dart';
 import 'package:product_list/shared/widgets/inputs/text_input.dart';
-import 'package:product_list/shared/widgets/text/pro_main_title_text_widget.dart';
+import 'package:product_list/shared/widgets/text/title_text.dart';
 import 'package:product_list/views/auth/register_page.dart';
+import 'package:product_list/views/product/home_page.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({Key? key}) : super(key: key);
@@ -36,7 +37,7 @@ class _LoginPageState extends State<LoginPage> {
               padding: EdgeInsets.fromLTRB(30, 70, 20, 20),
               child: Align(
                   alignment: Alignment.centerLeft,
-                  child: PROMainTitleTextWidget(
+                  child: PROTitleText(
                     text: 'FruitApp',
                     color: Colors.white,
                   )),
@@ -75,7 +76,12 @@ class _LoginPageState extends State<LoginPage> {
                         width: double.infinity,
                         child: PROSecondaryElevatedButton(
                           label: 'Entrar',
-                          onPressed: () {},
+                          onPressed: () {
+                            if(_loginFormKey.currentState!.validate()) {
+                              Navigator.of(context).push(CupertinoPageRoute(
+                                  builder: (_) => HomePage()));
+                            }
+                          },
                         ),
                       ),
                       Container(
