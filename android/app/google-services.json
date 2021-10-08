@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "261460560898",
+    "project_id": "fruitapp-d8135",
+    "storage_bucket": "fruitapp-d8135.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:261460560898:android:878ab7810beca6f8d06b1b",
+        "android_client_info": {
+          "package_name": "com.diegopestana.fruitapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "261460560898-7tuh20qa1o9uvu15m78khhjno231okjk.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDeqojmeJYEA2E86boHQru1b4ULDwd0NAs"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "261460560898-7tuh20qa1o9uvu15m78khhjno231okjk.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

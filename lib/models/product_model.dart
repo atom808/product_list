@@ -1,12 +1,20 @@
 class Product {
+  final int id;
+
   final String title;
-  final int price;
+
+  final double price;
+
   final int quantity;
+
   final String? imageUrl;
 
   Product({
+    required this.id,
     required this.title,
     required this.price,
     required this.quantity,
     this.imageUrl,
-  });}
+  });
+
+}
