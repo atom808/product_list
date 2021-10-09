@@ -7,6 +7,7 @@ import 'package:product_list/shared/widgets/buttons/text_button.dart';
 import 'package:product_list/shared/widgets/inputs/password_input.dart';
 import 'package:product_list/shared/widgets/inputs/text_input.dart';
 import 'package:product_list/shared/widgets/text/title_text.dart';
+import 'package:product_list/views/product/home_page.dart';
 
 class RegisterPage extends StatefulWidget {
   const RegisterPage({Key? key}) : super(key: key);
@@ -27,7 +28,8 @@ class _RegisterPageState extends State<RegisterPage> {
       await FirebaseAuth.instance.createUserWithEmailAndPassword(
           email: _emailController.text,
           password: _passwordController.text
-      );
+      ).then((value) => value.user != null ? Navigator.of(context).pushAndRemoveUntil(CupertinoPageRoute(
+          builder: (_) => HomePage()), (route) => false): null);
     } on FirebaseAuthException catch  (e) {
       showDialog(context: context, builder: (BuildContext context) => AlertDialog(
         title: Text('Atenção'),

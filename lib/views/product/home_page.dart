@@ -1,4 +1,7 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
+import 'package:product_list/controllers/home_controller.dart';
 import 'package:product_list/shared/widgets/inputs/text_input.dart';
 import 'package:product_list/shared/widgets/text/title_text.dart';
 
@@ -15,10 +18,12 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: CustomScrollView(
+        physics: BouncingScrollPhysics(),
         slivers: [
           SliverAppBar(
             collapsedHeight: 60,
             expandedHeight: 160,
+            elevation: 24,
             floating: true,
             backgroundColor: Theme.of(context).colorScheme.primary,
             iconTheme: IconThemeData(color: Colors.white,),
@@ -55,23 +60,30 @@ class _HomePageState extends State<HomePage> {
           ),
           SliverPadding(
             padding: EdgeInsets.all(20),
-            sliver: SliverGrid.count(
-              crossAxisCount: 2,
-              childAspectRatio: 2/3,
-              crossAxisSpacing: 8,
-              mainAxisSpacing: 8,
-              children: [
-                Card(
-                  color: Colors.white,
-                  shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(20)
-                  ),
-                  child: Container(
-                    width: double.infinity,
-                  ),
-                ),
-              ],
-            ),
+            sliver: FutureBuilder(
+              future: HomeController().productList(),
+              builder: (BuildContext context, AsyncSnapshot snapshot) {
+                if(snapshot.connectionState == ConnectionState.done) {
+                  log('Snapshot: ' + snapshot.toString());
+                  return SliverGrid.count(
+                    crossAxisCount: 2,
+                    childAspectRatio: 2/3,
+                    crossAxisSpacing: 8,
+                    mainAxisSpacing: 8,
+                    children: HomeController().productListWidgets(snapshot.data),
+                  );
+                } else {
+                  return SliverGrid.count(
+                    crossAxisCount: 1,
+                    children: const [
+                      Center(
+                        child: Text('CARREGANDO DADOS...'),
+                      )
+                    ],
+                  );
+                }
+              }
+            )
           )
         ],
       ),

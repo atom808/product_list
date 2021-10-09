@@ -31,7 +31,8 @@ class _LoginPageState extends State<LoginPage> {
       await FirebaseAuth.instance.signInWithEmailAndPassword(
           email: emailController.text,
           password: passwordController.text
-      );
+      ).then((value) => value.user != null ? Navigator.of(context).pushAndRemoveUntil(CupertinoPageRoute(
+          builder: (_) => HomePage()), (route) => false): null);
     } on FirebaseAuthException catch  (e) {
       showDialog(context: context, builder: (BuildContext context) => AlertDialog(
         title: Text('Atenção'),
