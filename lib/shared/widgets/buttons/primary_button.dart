@@ -11,7 +11,7 @@ class PROPrimaryElevatedButton extends StatelessWidget {
     return ElevatedButton(
       onPressed: onPressed,
       style: PROButtonDecoration().elevatedButton(
-        color: Theme.of(context).colorScheme.primary
+        color: Theme.of(context).colorScheme.primary,
       ),
       child: Text(label, style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),),
     );

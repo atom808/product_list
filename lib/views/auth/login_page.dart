@@ -32,7 +32,7 @@ class _LoginPageState extends State<LoginPage> {
           email: emailController.text,
           password: passwordController.text
       ).then((value) => value.user != null ? Navigator.of(context).pushAndRemoveUntil(CupertinoPageRoute(
-          builder: (_) => HomePage()), (route) => false): null);
+          builder: (_) => HomePage()), (route) => false) : null);
     } on FirebaseAuthException catch  (e) {
       showDialog(context: context, builder: (BuildContext context) => AlertDialog(
         title: Text('Atenção'),
