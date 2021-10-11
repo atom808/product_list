@@ -147,21 +147,21 @@ class _HomePageState extends State<HomePage> {
               icon: Icon(Icons.shopping_basket, color: Colors.white,),
             ),
           ),
-          // Positioned(
-          //   right: 4,
-          //   top: 10,
-          //   child: Container(
-          //     width: 14,
-          //     height: 14,
-          //     decoration: BoxDecoration(
-          //         color: Colors.amber,
-          //         shape: BoxShape.circle
-          //     ),
-          //     child: Center(
-          //       child:
-          //     ),
-          //   ),
-          // ),
+          Positioned(
+            right: 4,
+            top: 10,
+            child: Container(
+              width: 14,
+              height: 14,
+              decoration: BoxDecoration(
+                  color: Colors.amber,
+                  shape: BoxShape.circle
+              ),
+              child: Center(
+                child: CartBadge()
+              ),
+            ),
+          ),
         ],
       )
     );
@@ -204,7 +204,7 @@ class _CartBadgeState extends State<CartBadge> {
   Widget build(BuildContext context) {
     var cart = context.watch<CartModel>();
     return Text(
-      cart.cartList.length.toString(),
+      cart.totalLength().toString(),
       style: TextStyle(
           color: Colors.white,
           fontWeight: FontWeight.bold,

@@ -32,23 +32,45 @@ class _CheckoutPageState extends State<CheckoutPage> {
         title: PROTitleText(text: 'Carrinho', sizeH: 1, color: Colors.white,),
       ),
 
-      body: ListView.builder(
-        physics: BouncingScrollPhysics(),
-        itemCount: cart.cartList.length,
-        itemBuilder: (BuildContext context, int index) =>
-            Card(
-              color: Colors.white,
-              margin: EdgeInsets.symmetric(vertical: 8, horizontal: 20),
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(12)
-              ),
-              child: ListTile(
-                leading: Image.network(cart.cartList[index]['product'].imageUrl),
-                title: Text(cart.cartList[index]['product'].title),
-                subtitle: Text('R\$ ' + cart.cartList[index]['product'].price.toString()),
-                trailing: QuantityButton(index: index,),
-              ),
-            )
+      body: Column(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          ListView.builder(
+            shrinkWrap: true,
+              physics: BouncingScrollPhysics(),
+              itemCount: cart.cartList.length,
+              itemBuilder: (BuildContext context, int index) =>
+                  Card(
+                    color: Colors.white,
+                    margin: EdgeInsets.symmetric(vertical: 4, horizontal: 20),
+                    shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(12)
+                    ),
+                    child: ListTile(
+                      contentPadding: EdgeInsets.symmetric(vertical: 8, horizontal: 14),
+                      leading: Image.network(cart.cartList[index]['product'].imageUrl),
+                      title: Text(cart.cartList[index]['product'].title),
+                      subtitle: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text('R\$ ' + cart.cartList[index]['product'].price.toString()),
+                          Text('Total: R\$ ' + cart.totalPricePerProduct(index).toStringAsFixed(2)),
+                        ],
+                      ),
+                      trailing: QuantityButton(index: index,),
+                    ),
+                  )
+          ),
+          Padding(
+            padding: const EdgeInsets.all(12.0),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.end,
+              children: [
+                PROTitleText(text: 'Total: R\$ ' + cart.totalPrice().toStringAsFixed(2)),
+              ],
+            ),
+          ),
+        ],
       ),
 
       persistentFooterButtons: [
@@ -57,7 +79,10 @@ class _CheckoutPageState extends State<CheckoutPage> {
             width: MediaQuery.of(context).size.width * 0.9,
             child: PROSecondaryElevatedButton(
               label: 'Confirmar Compra',
-              onPressed: () {},
+              onPressed: () {
+                cart.buy();
+                Navigator.of(context).pop();
+              },
             )
           ),
         ),
