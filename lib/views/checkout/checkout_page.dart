@@ -6,6 +6,7 @@ import 'package:product_list/controllers/home_controller.dart';
 import 'package:product_list/models/cart_model.dart';
 import 'package:product_list/models/product_model.dart';
 import 'package:product_list/shared/widgets/buttons/primary_button.dart';
+import 'package:product_list/shared/widgets/buttons/quantity_button.dart';
 import 'package:product_list/shared/widgets/buttons/secondary_button.dart';
 import 'package:product_list/shared/widgets/text/title_text.dart';
 import 'package:provider/provider.dart';
@@ -36,8 +37,16 @@ class _CheckoutPageState extends State<CheckoutPage> {
         itemCount: cart.cartList.length,
         itemBuilder: (BuildContext context, int index) =>
             Card(
+              color: Colors.white,
+              margin: EdgeInsets.symmetric(vertical: 8, horizontal: 20),
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(12)
+              ),
               child: ListTile(
+                leading: Image.network(cart.cartList[index]['product'].imageUrl),
                 title: Text(cart.cartList[index]['product'].title),
+                subtitle: Text('R\$ ' + cart.cartList[index]['product'].price.toString()),
+                trailing: QuantityButton(index: index,),
               ),
             )
       ),
