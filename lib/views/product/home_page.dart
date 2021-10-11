@@ -131,6 +131,7 @@ class _HomePageState extends State<HomePage> {
   }
 
   getCartButton() {
+    var cart = context.watch<CartModel>();
     return Container(
       height: 44,
       width: 44,
@@ -142,17 +143,19 @@ class _HomePageState extends State<HomePage> {
         children: [
           Center(
             child: IconButton(
-              onPressed: () {
+              onPressed: cart.cartList.isNotEmpty ? () {
                 Navigator.of(context).push(
                   CupertinoPageRoute(
                     builder: (context) => CheckoutPage(),
                   ),
                 );
-              },
-              icon: Icon(Icons.shopping_basket, color: Colors.white,),
+              } : null,
+              icon: Icon(Icons.shopping_basket, color: cart.cartList.isNotEmpty ? Colors.white: Colors.grey.shade400
+
+                ,),
             ),
           ),
-          Positioned(
+          cart.cartList.isNotEmpty ? Positioned(
             right: 4,
             top: 10,
             child: Container(
@@ -166,7 +169,7 @@ class _HomePageState extends State<HomePage> {
                 child: CartBadge()
               ),
             ),
-          ),
+          ) : Container(),
         ],
       )
     );

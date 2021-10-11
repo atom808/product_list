@@ -1,10 +1,13 @@
+import 'dart:developer';
 import 'dart:io';
+import 'package:open_file/open_file.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:flutter/material.dart';
 import 'product_model.dart';
 import 'package:pdf/widgets.dart' as pw;
 import 'package:path_provider/path_provider.dart';
 import 'package:share_extend/share_extend.dart';
+import 'dart:io' as io;
 
 class CartModel extends ChangeNotifier {
   final List<Map> cartList = [];
@@ -99,9 +102,9 @@ class CartModel extends ChangeNotifier {
             children: [
               pw.Text('Comprovante - FruitApp'),
               pw.Divider(),
-              pw.ListView(
-                children: getListViewChildren(),
-              ),
+              // pw.ListView(
+              //   children: getListViewChildren(),
+              // ),
               pw.Divider(),
               pw.Text('Total: R\$ ' + totalPrice().toStringAsFixed(2)),
             ]
@@ -110,14 +113,16 @@ class CartModel extends ChangeNotifier {
       ),
     );
 
-    String dir = (await getApplicationDocumentsDirectory()).path;
-    Directory appDocDir = await getApplicationDocumentsDirectory();
-    String appDocPath = appDocDir.path;
+    savePdf(pdf);
+  }
 
-    final output = await getTemporaryDirectory();
-    final file = File("${output.path}/example.pdf");
-    // final file = File('$dir/comprovante.pdf');
-    await file.writeAsBytes(await pdf.save());
+
+  Future<void> savePdf(var pdf) async{
+    String path = (await getApplicationDocumentsDirectory()).path;
+
+    final file = File("$path/comprovante.pdf");
+
+    await file.writeAsBytes(await pdf.save()).then((value) => OpenFile.open('$path/comprovante.pdf'));
   }
 
 }

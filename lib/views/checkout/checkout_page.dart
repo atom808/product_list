@@ -79,10 +79,10 @@ class _CheckoutPageState extends State<CheckoutPage> {
             width: MediaQuery.of(context).size.width * 0.9,
             child: PROSecondaryElevatedButton(
               label: 'Confirmar Compra',
-              onPressed: () {
+              onPressed: cart.cartList.isNotEmpty ? () {
                 cart.buy();
                 Navigator.of(context).pop();
-              },
+              } : null,
             )
           ),
         ),
