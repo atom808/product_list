@@ -5,6 +5,7 @@ import 'dart:developer';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:product_list/models/cart_model.dart';
+import 'package:product_list/models/catalog_model.dart';
 import 'package:product_list/models/product_model.dart';
 import 'package:product_list/shared/widgets/text/title_text.dart';
 import 'package:product_list/views/product/home_page.dart';
@@ -12,23 +13,13 @@ import 'package:provider/provider.dart';
 
 class HomeController {
 
-  Future<List<Product>> productList() async {
-    QuerySnapshot querySnapshot = await FirebaseFirestore.instance.collection('products').get();
 
-    List<Product> productList = List.empty(growable: true);
-    querySnapshot.docs.forEach((doc) {
-      Product product = Product.fromJson(doc.data(), doc.id);
-      productList.add(product);
-    });
 
-    return productList;
-  }
-
-  List<Widget> productListWidgets(List<Product> productList, BuildContext context) {
+  List<Widget> productListWidgets(BuildContext context) {
     List<Widget> widgets = List.empty(growable: true);
+    var catalog = context.watch<CatalogModel>();
 
-
-    productList.forEach((element) {
+    for (var element in catalog.productListShow) {
       widgets.add(
         Card(
           key: Key(element.id),
@@ -132,7 +123,7 @@ class HomeController {
           ),
         ),
       );
-    });
+    }
 
     if(widgets.length > 0) {
       return widgets;

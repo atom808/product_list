@@ -1,6 +1,8 @@
 import 'dart:developer';
 
-class Product {
+import 'package:flutter/material.dart';
+
+class Product extends ChangeNotifier{
   final String id;
   final String title;
   final double price;

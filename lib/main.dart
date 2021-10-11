@@ -1,6 +1,7 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:product_list/models/cart_model.dart';
+import 'package:product_list/models/catalog_model.dart';
 import 'package:product_list/views/auth/login_page.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
@@ -22,6 +23,7 @@ class MyApp extends StatelessWidget {
     return MultiProvider(
       providers: [
         ChangeNotifierProvider(create: (context) => CartModel()),
+        ChangeNotifierProvider(create: (context) => CatalogModel()),
       ],
       child: MaterialApp(
         title: 'FruitApp',

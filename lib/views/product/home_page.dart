@@ -5,6 +5,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:product_list/controllers/home_controller.dart';
 import 'package:product_list/models/cart_model.dart';
+import 'package:product_list/models/catalog_model.dart';
 import 'package:product_list/shared/widgets/inputs/text_input.dart';
 import 'package:product_list/shared/widgets/text/title_text.dart';
 import 'package:product_list/views/auth/login_page.dart';
@@ -22,6 +23,7 @@ class _HomePageState extends State<HomePage> {
   TextEditingController searchController = TextEditingController();
   @override
   Widget build(BuildContext context) {
+    var catalog = context.watch<CatalogModel>();
     return Scaffold(
       body: CustomScrollView(
         physics: BouncingScrollPhysics(),
@@ -61,6 +63,9 @@ class _HomePageState extends State<HomePage> {
                           label: 'Pesquisar',
                           controller: searchController,
                           icon: Icons.search,
+                          onChanged: (String text) {
+                            catalog.search(text);
+                          },
                         ),
                       ),
                     ),
@@ -96,7 +101,7 @@ class _HomePageState extends State<HomePage> {
           SliverPadding(
             padding: EdgeInsets.all(20),
             sliver: FutureBuilder(
-              future: HomeController().productList(),
+              future: catalog.getProducts(),
               builder: (BuildContext context, AsyncSnapshot snapshot) {
                 if(snapshot.connectionState == ConnectionState.done) {
                   log('Snapshot: ' + snapshot.toString());
@@ -105,7 +110,7 @@ class _HomePageState extends State<HomePage> {
                     childAspectRatio: 2/3,
                     crossAxisSpacing: 8,
                     mainAxisSpacing: 8,
-                    children: HomeController().productListWidgets(snapshot.data, context),
+                    children: HomeController().productListWidgets(context),
                   );
                 } else {
                   return SliverGrid.count(

@@ -1,7 +1,10 @@
-import 'dart:developer';
-
+import 'dart:io';
+import 'package:path_provider/path_provider.dart';
 import 'package:flutter/material.dart';
 import 'product_model.dart';
+import 'package:pdf/widgets.dart' as pw;
+import 'package:path_provider/path_provider.dart';
+import 'package:share_extend/share_extend.dart';
 
 class CartModel extends ChangeNotifier {
   final List<Map> cartList = [];
@@ -17,11 +20,11 @@ class CartModel extends ChangeNotifier {
     return prices;
   }
 
-  double totalPrice () {
+  double totalPrice() {
     return totalPriceListPerProduct().fold(0, (previous, current) => previous + current);
   }
 
-  int totalLength () {
+  int totalLength() {
     List<int> items = [];
     for (var element in cartList) {
       items.add(element['quantity']);
@@ -59,9 +62,62 @@ class CartModel extends ChangeNotifier {
     notifyListeners();
   }
 
+
   void buy() {
-    cartList.clear();
-    notifyListeners();
+    createPdf()
+        .then((value) => cartList.clear())
+        .then((value) => notifyListeners());
+  }
+
+  Future<void> createPdf() async {
+    final pdf = pw.Document();
+
+    List<pw.Widget> getListViewChildren() {
+      List<pw.Widget> listWidget = [];
+      for (var element in cartList) {
+        listWidget.add(pw.Container(
+            margin: pw.EdgeInsets.symmetric(horizontal: 10, vertical: 4),
+            padding: pw.EdgeInsets.symmetric(horizontal: 10, vertical: 4),
+            child: pw.Column(
+                children: [
+                  pw.Text(element['product'].title, style: pw.TextStyle(
+                      fontWeight: pw.FontWeight.bold
+                  )),
+                  pw.Text(element['product'].price.toString()),
+                  pw.Text(element['product'].price.toString()),
+                ]
+            )
+        ));
+      }
+      return listWidget;
+    }
+
+    pdf.addPage(
+      pw.Page(
+        build: (pw.Context context) => pw.Center(
+          child: pw.Column(
+            children: [
+              pw.Text('Comprovante - FruitApp'),
+              pw.Divider(),
+              pw.ListView(
+                children: getListViewChildren(),
+              ),
+              pw.Divider(),
+              pw.Text('Total: R\$ ' + totalPrice().toStringAsFixed(2)),
+            ]
+          ),
+        ),
+      ),
+    );
+
+    String dir = (await getApplicationDocumentsDirectory()).path;
+    Directory appDocDir = await getApplicationDocumentsDirectory();
+    String appDocPath = appDocDir.path;
+
+    final output = await getTemporaryDirectory();
+    final file = File("${output.path}/example.pdf");
+    // final file = File('$dir/comprovante.pdf');
+    await file.writeAsBytes(await pdf.save());
   }
 
 }
