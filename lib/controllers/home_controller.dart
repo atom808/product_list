@@ -1,10 +1,14 @@
+import 'dart:async';
 import 'dart:convert';
 import 'dart:developer';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:product_list/models/cart_model.dart';
 import 'package:product_list/models/product_model.dart';
 import 'package:product_list/shared/widgets/text/title_text.dart';
+import 'package:product_list/views/product/home_page.dart';
+import 'package:provider/provider.dart';
 
 class HomeController {
 
@@ -20,8 +24,9 @@ class HomeController {
     return productList;
   }
 
-  List<Widget> productListWidgets(List<Product> productList) {
+  List<Widget> productListWidgets(List<Product> productList, BuildContext context) {
     List<Widget> widgets = List.empty(growable: true);
+
 
     productList.forEach((element) {
       widgets.add(
@@ -65,7 +70,6 @@ class HomeController {
                                           ])
                                       )
                                   ),
-
                                   Positioned(
                                     bottom: 4,
                                       left: 6,
@@ -98,10 +102,27 @@ class HomeController {
                     )
                   ),
                   Padding(
-                    padding: const EdgeInsets.all(8.0),
+                    padding: const EdgeInsets.all(10.0),
                     child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        PROTitleText(text: element.title, sizeH: 3, color: Colors.grey.shade800,)
+                        PROTitleText(text: element.title, sizeH: 3, color: Colors.grey.shade800,),
+                        InkWell(
+                          onTap: () {
+                            var cart = context.read<CartModel>();
+                            cart.addToCart(element);
+                            log('CART LIST PROVIDER: ' + cart.cartList.toString());
+                          },
+                          child: Container(
+                            height: 20,
+                            width: 20,
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(4),
+                              color: Colors.amber,
+                            ),
+                            child: Center(child: Icon(Icons.add, color: Colors.white, size: 20,)),
+                          ),
+                        )
                       ],
                     ),
                   )
@@ -119,8 +140,5 @@ class HomeController {
       return [];
     }
   }
-
-
-  Stream<List<Product>> cartList = Stream.empty();
 
 }

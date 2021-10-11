@@ -4,9 +4,12 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:product_list/controllers/home_controller.dart';
+import 'package:product_list/models/cart_model.dart';
 import 'package:product_list/shared/widgets/inputs/text_input.dart';
 import 'package:product_list/shared/widgets/text/title_text.dart';
 import 'package:product_list/views/auth/login_page.dart';
+import 'package:product_list/views/checkout/checkout_page.dart';
+import 'package:provider/provider.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -62,18 +65,7 @@ class _HomePageState extends State<HomePage> {
                       ),
                     ),
                     VerticalDivider(width: 8,),
-                    Container(
-                      height: 44,
-                      width: 44,
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(12),
-                        color: Colors.white.withOpacity(0.2)
-                      ),
-                      child: IconButton(
-                        onPressed: () {},
-                        icon: Icon(Icons.shopping_basket, color: Colors.white,),
-                      ),
-                    ),
+                    getCartButton(),
                     VerticalDivider(width: 8,),
                     Container(
                       height: 44,
@@ -113,7 +105,7 @@ class _HomePageState extends State<HomePage> {
                     childAspectRatio: 2/3,
                     crossAxisSpacing: 8,
                     mainAxisSpacing: 8,
-                    children: HomeController().productListWidgets(snapshot.data),
+                    children: HomeController().productListWidgets(snapshot.data, context),
                   );
                 } else {
                   return SliverGrid.count(
@@ -130,6 +122,48 @@ class _HomePageState extends State<HomePage> {
           )
         ],
       ),
+    );
+  }
+
+  getCartButton() {
+    return Container(
+      height: 44,
+      width: 44,
+      decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(12),
+          color: Colors.white.withOpacity(0.2)
+      ),
+      child: Stack(
+        children: [
+          Center(
+            child: IconButton(
+              onPressed: () {
+                Navigator.of(context).push(
+                  CupertinoPageRoute(
+                    builder: (context) => CheckoutPage(),
+                  ),
+                );
+              },
+              icon: Icon(Icons.shopping_basket, color: Colors.white,),
+            ),
+          ),
+          // Positioned(
+          //   right: 4,
+          //   top: 10,
+          //   child: Container(
+          //     width: 14,
+          //     height: 14,
+          //     decoration: BoxDecoration(
+          //         color: Colors.amber,
+          //         shape: BoxShape.circle
+          //     ),
+          //     child: Center(
+          //       child:
+          //     ),
+          //   ),
+          // ),
+        ],
+      )
     );
   }
 
@@ -156,3 +190,27 @@ class _HomePageState extends State<HomePage> {
     );
   }
 }
+
+
+class CartBadge extends StatefulWidget {
+  const CartBadge({Key? key}) : super(key: key);
+
+  @override
+  _CartBadgeState createState() => _CartBadgeState();
+}
+
+class _CartBadgeState extends State<CartBadge> {
+  @override
+  Widget build(BuildContext context) {
+    var cart = context.watch<CartModel>();
+    return Text(
+      cart.cartList.length.toString(),
+      style: TextStyle(
+          color: Colors.white,
+          fontWeight: FontWeight.bold,
+          fontSize: 10
+      ),
+    );
+  }
+}
+
