@@ -118,11 +118,12 @@ class CartModel extends ChangeNotifier {
 
 
   Future<void> savePdf(var pdf) async{
+    log('instância do PDF: ' + pdf.toString());
     String path = (await getApplicationDocumentsDirectory()).path;
-
+    log('path de documentos: ' + path.toString());
     final file = File("$path/comprovante.pdf");
-
-    await file.writeAsBytes(await pdf.save()).then((value) => OpenFile.open('$path/comprovante.pdf'));
+    log('file: ' + file.toString());
+    return await file.writeAsBytes(await pdf.save()).then((value) => OpenFile.open(value.path));
   }
 
 }
